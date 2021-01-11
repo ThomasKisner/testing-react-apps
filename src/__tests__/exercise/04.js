@@ -12,8 +12,15 @@ test('submitting the form calls onSubmit with username and password', () => {
 
   render(<Login onSubmit={handleSubmit} />)
 
-  let username = faker.internet.userName()
-  let password = faker.internet.password()
+  const buildLoginForm = overrides => {
+    return {
+      password: faker.internet.password(),
+      username: faker.internet.userName(),
+      ...overrides,
+    }
+  }
+
+  const {username, password} = buildLoginForm({password: 'abc'})
 
   userEvent.type(screen.getByLabelText(/username/i), username)
   userEvent.type(screen.getByLabelText(/password/i), password)
